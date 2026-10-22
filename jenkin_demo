@@ -4,28 +4,22 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out source code...'
-                // git url: 'https://github.com', branch: 'main'
+                git branch: 'main', url: 'https://github.com/Mythilivellingiri/jenkins-demo.git'
             }
         }
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                // Example for Node.js / React:
-                sh 'npm install'
-                sh 'npm run build'
+                sh 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                echo 'Running unit tests...'
-                sh 'npm test'
+                sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('Archive') {
             steps {
-                echo 'Deploying application...'
-                sh 'echo "Deployment complete!"'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
